@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    <title>Vagabond Scans</title>
+</head>
+<body class="container">
+
+    <div class="row mt-4 g-4">
+        <div class="col-8">
+            <h1 class="mb-4">Manga List</h1>
+        
+            <ul class="list-group fs-5 me-5" id="manga-list">
+                {{ range .Manga }}
+                {{ block "manga-list-element" .}}
+                    <li class="list-group-item bg-primary text-white">{{ .Title }} - {{ .Author }}</li>
+                {{ end }}
+                {{ end }}
+            </ul>
+        </div>
+
+        <div class="col-4">
+            <h1 class="mb-4">Add Manga</h1>
+
+            <form hx-post="/add-manga/" hx-target="#manga-list" hx-swap="beforeend" hx-indicator="#spinner">
+                <div class="mb-2">
+                    <label for="manga-title">Title</label>
+                    <input type="text" name="title" id="manga-title" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label for="manga-author">Author</label>
+                    <input type="text" name="author" id="manga-author" class="form-control" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <span class="spinner-border spinner-border-sm htmx-indicator" id="spinner" role="status" aria-hidden="true"></span>
+                    Submit
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+</body>
+</html>
